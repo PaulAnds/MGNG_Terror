@@ -27,7 +27,7 @@ AOxygen::AOxygen()
 	NeedleMesh->SetupAttachment(NeedleCenterMesh);
 
 	NeedleCenterMesh->SetRelativeRotation(FRotator(0,0,-207));
-	RotSpeed = 1;
+	RotSpeed = 0.5f;
 	OxygenValue = 0;
 	bIsLeaking = false;
 	counter = 0;
@@ -46,23 +46,9 @@ void AOxygen::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if(OxygenValue < 207.f)
 	{
-		if(bIsLeaking)
-		{
-			RotSpeed = 10.0f;
-		}
-		else
-		{
-			RotSpeed = 1.0f;
-		}
 		const FRotator NewRotation = FRotator(0,0,DeltaTime * RotSpeed);
 		OxygenValue += DeltaTime * RotSpeed;
 		NeedleCenterMesh->AddRelativeRotation(NewRotation);
-	}
-	counter += DeltaTime;
-	if(counter > 5.0f)
-	{
-		SetIsLeaking();
-		counter = 0;
 	}
 }
 
@@ -72,9 +58,16 @@ void AOxygen::SetIsLeaking()
 	if(bIsLeaking)
 	{
 		NiagaraSystem->Activate();
+		RotSpeed = 3.0f;
 	}
 	else
 	{
 		NiagaraSystem->Deactivate();
+		RotSpeed = 0.5f;
 	}
+}
+
+float AOxygen::GetOxygenValue()
+{
+	return OxygenValue;
 }

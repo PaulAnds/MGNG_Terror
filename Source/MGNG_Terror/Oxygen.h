@@ -40,9 +40,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable)
 	void SetIsLeaking();
+
+	UFUNCTION(BlueprintCallable)
+	float GetOxygenValue();
 	bool bIsLeaking;
-	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float OxygenValue;
 	float RotSpeed;
 	float counter;
